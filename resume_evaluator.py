@@ -9,8 +9,16 @@ load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 if not GOOGLE_API_KEY:
+    try:
+        import streamlit as st
+        GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+    except Exception:
+        GOOGLE_API_KEY = None
+
+if not GOOGLE_API_KEY:
     raise ValueError(
-        "GOOGLE_API_KEY not found. Check your .env file."
+        "GOOGLE_API_KEY not found. Configure it in your "
+        "local .env file or Streamlit Cloud Secrets."
     )
 
 # Initialize Gemini
